@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:id="@+id/editText"
         android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true"
@@ -30,25 +30,55 @@
         android:padding="10dp"
         android:gravity="top" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:id="@+id/translation"
-        android:textSize="20sp"
-        android:text="Test"
-        android:layout_below="@+id/editText"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
-
     <Button
         android:text="Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/translate_button"
         android:layout_below="@+id/editText"
-        android:layout_marginTop="13dp"
-        android:id="@+id/button"
         android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText" />
+        android:layout_alignEnd="@+id/editText"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:id="@+id/translation"
+        android:textSize="20sp"
+        android:text="Test"
+        android:layout_below="@+id/translate_button"
+        android:layout_alignLeft="@+id/editText"
+        android:layout_alignStart="@+id/editText" />
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Spinner
+            android:id="@+id/from_spinner"
+            android:layout_height="40dp"
+            android:layout_weight="0.40"
+            android:layout_width="0dip"
+            android:textSize="12sp"/>
+        <Button
+            android:id="@+id/change_button"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:layout_width="0dip"
+            android:textSize="12sp"/>
+        <Spinner
+            android:id="@+id/to_spinner"
+            android:layout_height="40dp"
+            android:layout_weight="0.4"
+            android:layout_width="0dip"
+            android:textSize="12sp"/>
+    </LinearLayout>
 
 </RelativeLayout>
