@@ -19,39 +19,42 @@
         android:layout_width="match_parent"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:id="@+id/editText"
         android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_height="150dp"
         android:background="@drawable/background_edit_text"
         android:padding="10dp"
-        android:gravity="top" />
+        android:gravity="top"
+        android:layout_height="150dp" />
 
     <Button
-        android:text="Button"
+        style="?android:attr/borderlessButtonStyle"
+        android:text="@string/translate"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/translate_button"
         android:layout_below="@+id/editText"
         android:layout_alignRight="@+id/editText"
         android:layout_alignEnd="@+id/editText"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_translate_button"
+        android:layout_height="35dp"
+        android:textSize="12sp"
+        android:textColor="@color/titleTextColor" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:id="@+id/translation"
-        android:textSize="20sp"
-        android:text="Test"
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
         android:layout_below="@+id/translate_button"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/recycler_view">
 
-
+    </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -59,26 +62,32 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:elevation="1dp">
 
         <Spinner
             android:id="@+id/from_spinner"
-            android:layout_height="40dp"
-            android:layout_weight="0.40"
+            android:layout_weight="0.45"
             android:layout_width="0dip"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:background="@drawable/background_drop_down"
+            android:layout_height="50dp" />
         <Button
+            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/change_button"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2"
+            android:layout_weight="0.15"
             android:layout_width="0dip"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:background="@drawable/background_change_language_button"
+            android:layout_height="50dp"
+            android:layout_marginTop="-1.5dp" />
         <Spinner
             android:id="@+id/to_spinner"
-            android:layout_height="40dp"
-            android:layout_weight="0.4"
+            android:layout_height="50dp"
+            android:layout_weight="0.45"
             android:layout_width="0dip"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:background="@drawable/background_drop_down" />
     </LinearLayout>
 
 </RelativeLayout>

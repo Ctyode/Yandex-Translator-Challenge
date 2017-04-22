@@ -58,11 +58,11 @@ public class TranslatorApi {
         httpRequest = new HttpRequest(new URL(httpRequestString), new HttpRequest.HttpRequestCallback() {
             @Override
             public void success(final String data) {
-                try {
-                    callback.callback(WordTranslation.deserializeFromJSON(new JSONObject(data)));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    callback.callback(WordTranslation.deserializeFromJSON(new JSONObject(data)));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
             }
 
             @Override

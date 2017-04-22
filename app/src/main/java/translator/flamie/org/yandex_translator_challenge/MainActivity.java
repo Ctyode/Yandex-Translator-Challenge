@@ -3,6 +3,9 @@ package translator.flamie.org.yandex_translator_challenge;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,8 +16,6 @@ import android.widget.TextView;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ import translator.flamie.org.yandex_translator_challenge.model.TranslationPair;
 import translator.flamie.org.yandex_translator_challenge.model.WordTranslation;
 import translator.flamie.org.yandex_translator_challenge.util.Callback;
 import translator.flamie.org.yandex_translator_challenge.util.Dimen;
+
+import static android.support.v7.recyclerview.R.attr.layoutManager;
 
 /**
  * Created by flamie on 20.03.17 :3
@@ -77,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        TextView translatedText = (TextView) findViewById(R.id.translation);
-                                        translatedText.setText(result.getTranslatedText());
+//                                        TextView translatedText = (TextView) findViewById(R.id.translation);
+//                                        translatedText.setText(result.getTranslatedText());
                                     }
                                 });
                             }
@@ -90,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        TextView translatedText = (TextView) findViewById(R.id.translation);
+//                                        TextView translatedText = (TextView) findViewById(R.id.translation);
                                         // TODO
-                                        translatedText.setText(result.getTranslations());
+                                        //translatedText.setText(result.getTranslations());
                                     }
                                 });
                             }
@@ -104,5 +107,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        String[] strings = new String[3];
+        strings[0] = "1";
+        strings[1] = "2";
+        strings[2] = "3";
+        TranslatorAdapter adapter = new TranslatorAdapter(strings);
+        recyclerView.setAdapter(adapter);
     }
+
+
+
 }
