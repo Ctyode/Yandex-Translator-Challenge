@@ -27,7 +27,7 @@ public class TranslatorAdapter extends RecyclerView.Adapter<TranslatorAdapter.Vi
     }
 
     @Override
-    public TranslatorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
         return new ViewHolder(v);
     }

@@ -103,8 +103,10 @@ public class TranslatorFragment extends Fragment {
                                     @Override
                                     public void run() {
                                         translations.clear();
-                                        for(int i = 0; i < result.getTranslations().size(); i++) {
-                                            translations.add(result.getTranslations().get(i).getText());
+                                        if (result != null) {
+                                            for (int i = 0; i < result.getTranslations().size(); i++) {
+                                                translations.add(result.getTranslations().get(i).getText());
+                                            }
                                         }
                                         TranslatorAdapter adapter = new TranslatorAdapter(translations);
                                         recyclerView.setAdapter(adapter);

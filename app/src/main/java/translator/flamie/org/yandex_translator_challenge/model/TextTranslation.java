@@ -24,8 +24,7 @@ public class TextTranslation {
             String textFromResponse = response.getJSONArray("text").getString(0);
             return new TextTranslation(textFromResponse);
         } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 

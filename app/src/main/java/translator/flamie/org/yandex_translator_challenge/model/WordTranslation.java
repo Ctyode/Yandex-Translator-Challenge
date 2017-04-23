@@ -29,25 +29,32 @@ public class WordTranslation {
         return translations;
     }
 
-    public static List<WordTranslation> deserializeFromJSON(JSONObject response) throws JSONException {
-        List<WordTranslation> wordTranslations = new ArrayList<>();
-        JSONArray defs = response.getJSONArray("def");
-        for(int i = 0; i < defs.length(); i++) {
-            JSONObject def = defs.getJSONObject(i);
-            wordTranslations.add(deserializeSingleWordTranslation(def));
+    public static WordTranslation deserializeFrom(JSONObject response) {
+        try {
+            JSONObject def = response.getJSONArray("def").optJSONObject(0);
+            if (def != null) {
+                return deserializeSingleWordTranslation(def);
+            } else {
+                return null;
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
-        return wordTranslations;
     }
 
-    public static WordTranslation deserializeSingleWordTranslation(JSONObject response) throws JSONException {
-        Word originalWord = new Word(response.getString("text"), Word.PartOfSpeech.deserializePartOfSpeech(response.getString("pos")), new ArrayList<Word>());
-        List<Word> translations = new ArrayList<>();
-        JSONArray trs = response.getJSONArray("tr");
-        for(int i = 0; i < trs.length(); i++) {
-            JSONObject tr = trs.getJSONObject(i);
-            translations.add(Word.deserealizeWord(tr));
+    public static WordTranslation deserializeSingleWordTranslation(JSONObject response) {
+        try {
+            Word originalWord = Word.deserializeWord(response);
+            List<Word> translations = new ArrayList<>();
+            JSONArray trs = response.getJSONArray("tr");
+            for (int i = 0; i < trs.length(); i++) {
+                JSONObject tr = trs.getJSONObject(i);
+                translations.add(Word.deserializeWord(tr));
+            }
+            return new WordTranslation(originalWord, translations);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
-        return new WordTranslation(originalWord, translations);
     }
 
 }

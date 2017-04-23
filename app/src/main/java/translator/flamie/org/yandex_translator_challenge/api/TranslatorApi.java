@@ -1,10 +1,5 @@
 package translator.flamie.org.yandex_translator_challenge.api;
 
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,11 +53,11 @@ public class TranslatorApi {
         httpRequest = new HttpRequest(new URL(httpRequestString), new HttpRequest.HttpRequestCallback() {
             @Override
             public void success(final String data) {
-//                try {
-//                    callback.callback(WordTranslation.deserializeFromJSON(new JSONObject(data)));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    callback.callback(WordTranslation.deserializeFrom(new JSONObject(data)));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             @Override
