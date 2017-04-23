@@ -50,6 +50,7 @@ public class TranslatorFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle("Translator");
         return inflater.inflate(R.layout.translator_fragment, container, false);
     }
 
@@ -183,7 +184,7 @@ public class TranslatorFragment extends Fragment {
         JSONArray history = new JSONArray(fileContents);
         history.put(object);
 
-        FileWriter fileWriter = new FileWriter(file, true);
+        FileWriter fileWriter = new FileWriter(file);
         fileWriter.write(history.toString());
         fileWriter.flush();
         fileWriter.close();

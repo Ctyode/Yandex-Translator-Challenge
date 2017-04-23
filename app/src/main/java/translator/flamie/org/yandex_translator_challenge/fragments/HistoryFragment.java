@@ -37,6 +37,7 @@ public class HistoryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle("Translator");
         return inflater.inflate(R.layout.history_fragment, container, false);
     }
 
@@ -83,6 +84,7 @@ public class HistoryFragment extends Fragment {
                 line = br.readLine();
             }
             fileContents = sb.toString();
+            System.out.println(fileContents);
         } finally {
             br.close();
         }
