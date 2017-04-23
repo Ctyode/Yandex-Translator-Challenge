@@ -6,11 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
-public class TranslatorAdapter extends RecyclerView.Adapter<TranslatorAdapter.ViewHolder> {
-
-    private ArrayList<String> mDataset;
+    private String[] mDataset;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -18,27 +16,27 @@ public class TranslatorAdapter extends RecyclerView.Adapter<TranslatorAdapter.Vi
 
         public ViewHolder(View v) {
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.recycler_text_view);
+            mTextView = (TextView) v.findViewById(R.id.recycler_text_view_history);
         }
     }
 
-    public TranslatorAdapter(ArrayList<String> myDataset) {
+    public HistoryAdapter(String[] myDataset) {
         mDataset = myDataset;
     }
 
     @Override
-    public TranslatorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
+    public HistoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_history_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mDataset.get(position));
+        holder.mTextView.setText(mDataset[position]);
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return mDataset.length;
     }
 }

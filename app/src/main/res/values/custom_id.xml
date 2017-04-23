@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item
+        type="id"
+        name="tab_translator"/>
+    <item
+        type="id"
+        name="tab_history"/>
+    <item
+        type="id"
+        name="tab_preferences"/>
+</resources>
