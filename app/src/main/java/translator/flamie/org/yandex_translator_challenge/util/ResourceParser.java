@@ -1,4 +1,4 @@
-package translator.flamie.org.yandex_translator_challenge;
+package translator.flamie.org.yandex_translator_challenge.util;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;

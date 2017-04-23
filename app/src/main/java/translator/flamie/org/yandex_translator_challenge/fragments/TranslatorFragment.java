@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,16 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -21,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 
 import translator.flamie.org.yandex_translator_challenge.R;
-import translator.flamie.org.yandex_translator_challenge.ResourceParser;
 import translator.flamie.org.yandex_translator_challenge.TranslatorAdapter;
 import translator.flamie.org.yandex_translator_challenge.api.TranslatorApi;
 import translator.flamie.org.yandex_translator_challenge.model.Language;
@@ -29,6 +39,7 @@ import translator.flamie.org.yandex_translator_challenge.model.TextTranslation;
 import translator.flamie.org.yandex_translator_challenge.model.TranslationPair;
 import translator.flamie.org.yandex_translator_challenge.model.WordTranslation;
 import translator.flamie.org.yandex_translator_challenge.util.Callback;
+import translator.flamie.org.yandex_translator_challenge.util.ResourceParser;
 
 /**
  * Created by flamie on 23.04.17 :3
@@ -46,7 +57,7 @@ public class TranslatorFragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Map<String, String> languages = ResourceParser.getHashMapResource(getActivity().getApplicationContext(), R.xml.languages);
+        final Map<String, String> languages = ResourceParser.getHashMapResource(getActivity().getApplicationContext(), R.xml.languages);
         List<Language> vals = new ArrayList<>();
         for(Map.Entry<String, String> entry : languages.entrySet()) {
             vals.add(new Language(entry.getKey(), entry.getValue()));
@@ -77,8 +88,8 @@ public class TranslatorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final String text = ((TextView) view.findViewById(R.id.editText)).getText().toString();
-                String from = ((Language)((Spinner) view.findViewById(R.id.from_spinner)).getSelectedItem()).getCode();
-                String to = ((Language)((Spinner) view.findViewById(R.id.to_spinner)).getSelectedItem()).getCode();
+                final String from = ((Language)((Spinner) view.findViewById(R.id.from_spinner)).getSelectedItem()).getCode();
+                final String to = ((Language)((Spinner) view.findViewById(R.id.to_spinner)).getSelectedItem()).getCode();
                 try {
                     if(text.contains(" ")) {
                         TranslatorApi.translateText(new TranslationPair(from, to), text, new Callback<TextTranslation>() {
@@ -91,6 +102,11 @@ public class TranslatorFragment extends Fragment {
                                         translations.add(result.getTranslatedText());
                                         TranslatorAdapter adapter = new TranslatorAdapter(translations);
                                         recyclerView.setAdapter(adapter);
+                                        try {
+                                            writeToFile(text, result.getTranslatedText(), from + "-" + to);
+                                        } catch (JSONException | IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 });
                             }
@@ -110,6 +126,12 @@ public class TranslatorFragment extends Fragment {
                                         }
                                         TranslatorAdapter adapter = new TranslatorAdapter(translations);
                                         recyclerView.setAdapter(adapter);
+                                        try {
+                                            if(result != null)
+                                                writeToFile(text, result.getTranslations().get(0).getText(), from + "-" + to);
+                                        } catch (JSONException | IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 });
                             }
@@ -125,5 +147,45 @@ public class TranslatorFragment extends Fragment {
 
     public static TranslatorFragment newInstance() {
         return new TranslatorFragment();
+    }
+
+    private void writeToFile(String originalWord, String translatedWord, String languages) throws JSONException, IOException {
+        File file = getActivity().getFileStreamPath("history.json");
+        if (!file.exists()) {
+            OutputStreamWriter out = new OutputStreamWriter(getActivity().openFileOutput("history.json", 0));
+            out.write("[]");
+            out.close();
+        } else {
+            Log.d("File", "File is exist");
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("or_word", originalWord);
+        object.put("tr_word", translatedWord);
+        object.put("lang", languages);
+
+        String fileContents = "";
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append("\n");
+                line = br.readLine();
+            }
+            fileContents = sb.toString();
+        } finally {
+            br.close();
+        }
+
+        JSONArray history = new JSONArray(fileContents);
+        history.put(object);
+
+        FileWriter fileWriter = new FileWriter(file, true);
+        fileWriter.write(history.toString());
+        fileWriter.flush();
+        fileWriter.close();
     }
 }

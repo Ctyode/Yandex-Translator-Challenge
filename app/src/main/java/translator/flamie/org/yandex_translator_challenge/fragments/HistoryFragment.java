@@ -10,13 +10,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import translator.flamie.org.yandex_translator_challenge.HistoryAdapter;
 import translator.flamie.org.yandex_translator_challenge.R;
+import translator.flamie.org.yandex_translator_challenge.model.HistoryItem;
 
 /**
  * Created by flamie on 23.04.17 :3
  */
 
 public class HistoryFragment extends Fragment {
+
+    private String translatedWord;
+    private String originalWord;
+    private String languages;
 
     @Nullable
     @Override
@@ -31,15 +47,46 @@ public class HistoryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-//        String[] strings = new String[3];
-//        strings[0] = "1";
-//        strings[1] = "2";
-//        strings[2] = "3";
-//        TranslatorAdapter adapter = new TranslatorAdapter(strings);
-//        recyclerView.setAdapter(adapter);
+        JSONArray history;
+        List<HistoryItem> historyItems = new ArrayList<>();
+        try {
+            history = readFile();
+            for(int i = 0; i < history.length(); i++) {
+                translatedWord = history.getJSONObject(i).getString("tr_word");
+                originalWord = history.getJSONObject(i).getString("or_word");
+                languages = history.getJSONObject(i).getString("lang");
+                historyItems.add(new HistoryItem(originalWord, translatedWord, languages, false));
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        HistoryAdapter adapter = new HistoryAdapter(historyItems);
+        recyclerView.setAdapter(adapter);
     }
 
     public static HistoryFragment newInstance() {
         return new HistoryFragment();
+    }
+
+    private JSONArray readFile() throws IOException, JSONException {
+        File file = getActivity().getFileStreamPath("history.json");
+        String fileContents = "";
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append("\n");
+                line = br.readLine();
+            }
+            fileContents = sb.toString();
+        } finally {
+            br.close();
+        }
+
+        return new JSONArray(fileContents);
     }
 }

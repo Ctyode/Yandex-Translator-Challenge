@@ -8,7 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import translator.flamie.org.yandex_translator_challenge.HttpRequest;
+import translator.flamie.org.yandex_translator_challenge.util.HttpRequest;
 import translator.flamie.org.yandex_translator_challenge.model.TextTranslation;
 import translator.flamie.org.yandex_translator_challenge.model.TranslationPair;
 import translator.flamie.org.yandex_translator_challenge.model.WordTranslation;

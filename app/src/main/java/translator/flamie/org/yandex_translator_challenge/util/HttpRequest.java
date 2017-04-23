@@ -1,4 +1,4 @@
-package translator.flamie.org.yandex_translator_challenge;
+package translator.flamie.org.yandex_translator_challenge.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

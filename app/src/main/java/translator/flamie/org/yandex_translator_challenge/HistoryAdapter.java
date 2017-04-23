@@ -6,22 +6,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
+import translator.flamie.org.yandex_translator_challenge.model.HistoryItem;
+
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
-    private String[] mDataset;
+    private List<HistoryItem> dataset;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mTextView;
+        public TextView originalWord;
+        public TextView translatedWord;
+        public TextView language;
 
         public ViewHolder(View v) {
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.recycler_text_view_history);
+
+            originalWord = (TextView) v.findViewById(R.id.original_word);
+            translatedWord = (TextView) v.findViewById(R.id.translated_word);
+            language = (TextView) v.findViewById(R.id.language);
         }
     }
 
-    public HistoryAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public HistoryAdapter(List<HistoryItem> myDataset) {
+        dataset = myDataset;
     }
 
     @Override
@@ -32,11 +41,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mDataset[position]);
+        holder.originalWord.setText(dataset.get(position).getOriginalWord());
+        holder.translatedWord.setText(dataset.get(position).getTranslatedWord());
+        holder.language.setText(dataset.get(position).getLanguages().toString());
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return dataset.size();
     }
 }

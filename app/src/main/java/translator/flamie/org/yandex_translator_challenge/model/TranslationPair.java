@@ -18,4 +18,6 @@ public class TranslationPair {
     public String toString() {
         return from + "-" + to;
     }
+
+
 }

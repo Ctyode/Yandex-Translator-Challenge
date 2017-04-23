@@ -12,7 +12,6 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 import translator.flamie.org.yandex_translator_challenge.fragments.HistoryFragment;
 import translator.flamie.org.yandex_translator_challenge.fragments.TranslatorFragment;
-import translator.flamie.org.yandex_translator_challenge.util.Dimen;
 
 /**
  * Created by flamie on 20.03.17 :3
@@ -23,7 +22,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Dimen.init(getApplicationContext());
         Context context = getApplicationContext();
         context.setTheme(R.style.AppTheme);
         setContentView(R.layout.main_activity);
