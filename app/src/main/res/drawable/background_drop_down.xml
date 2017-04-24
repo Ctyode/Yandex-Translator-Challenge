@@ -12,7 +12,7 @@
     </item>
     <item android:drawable="@drawable/ic_expand_more_black_36dp"
         android:bottom="8dp"
-        android:left="115dp"
-        android:right="5dp"
+        android:left="127dp"
+        android:right="17dp"
         android:top="8dp"/>
 </layer-list>
