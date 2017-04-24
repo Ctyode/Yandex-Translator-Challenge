@@ -8,5 +8,5 @@
         name="tab_history"/>
     <item
         type="id"
-        name="tab_preferences"/>
+        name="tab_favorites"/>
 </resources>

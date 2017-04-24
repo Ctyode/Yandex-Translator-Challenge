@@ -10,17 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import translator.flamie.org.yandex_translator_challenge.R;
-import translator.flamie.org.yandex_translator_challenge.adapters.HistoryAdapter;
+import translator.flamie.org.yandex_translator_challenge.adapters.FavoritesAdapter;
 import translator.flamie.org.yandex_translator_challenge.model.BookmarkItem;
-import translator.flamie.org.yandex_translator_challenge.util.FileUtils;
+import translator.flamie.org.yandex_translator_challenge.model.LocalData;
 
 /**
  * Created by flamie on 23.04.17 :3
@@ -28,46 +24,37 @@ import translator.flamie.org.yandex_translator_challenge.util.FileUtils;
 
 public class FavoritesFragment extends Fragment {
 
-    private boolean isFavorite;
+    private LocalData localData;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.favorites_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_history);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_favorites);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-        JSONArray favorites;
         List<BookmarkItem> favoritesItems = new ArrayList<>();
-        try {
-            favorites = FileUtils.readFile(getActivity(), "favorites.json");
-            for(int i = 0; i < favorites.length(); i++) {
-                String translatedWord = favorites.getJSONObject(i).getString("tr_word");
-                String originalWord = favorites.getJSONObject(i).getString("or_word");
-                String languages = favorites.getJSONObject(i).getString("lang");
-                isFavorite = favorites.getJSONObject(i).getBoolean("is_fav");
-                favoritesItems.add(new BookmarkItem(originalWord, translatedWord, languages, false));
+        for (BookmarkItem bookmark: favoritesItems) {
+            if(bookmark.getIsFavorite()) {
+                favoritesItems.add(bookmark);
             }
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
         }
 
-        HistoryAdapter adapter = new HistoryAdapter(favoritesItems);
+        FavoritesAdapter adapter = new FavoritesAdapter(favoritesItems);
         recyclerView.setAdapter(adapter);
-
-        //Button
-
 
     }
 
-    public static FavoritesFragment newInstance() {
-        return new FavoritesFragment();
+    public static FavoritesFragment newInstance(LocalData localData) {
+        FavoritesFragment favoritesFragment = new FavoritesFragment();
+        favoritesFragment.localData = localData;
+        return favoritesFragment;
     }
 
 }

@@ -14,9 +14,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -26,12 +23,13 @@ import java.util.Map;
 import translator.flamie.org.yandex_translator_challenge.R;
 import translator.flamie.org.yandex_translator_challenge.adapters.TranslatorAdapter;
 import translator.flamie.org.yandex_translator_challenge.api.TranslatorApi;
+import translator.flamie.org.yandex_translator_challenge.model.BookmarkItem;
 import translator.flamie.org.yandex_translator_challenge.model.Language;
+import translator.flamie.org.yandex_translator_challenge.model.LocalData;
 import translator.flamie.org.yandex_translator_challenge.model.TextTranslation;
 import translator.flamie.org.yandex_translator_challenge.model.TranslationPair;
 import translator.flamie.org.yandex_translator_challenge.model.WordTranslation;
 import translator.flamie.org.yandex_translator_challenge.util.Callback;
-import translator.flamie.org.yandex_translator_challenge.util.FileUtils;
 import translator.flamie.org.yandex_translator_challenge.util.ResourceParser;
 
 /**
@@ -39,6 +37,8 @@ import translator.flamie.org.yandex_translator_challenge.util.ResourceParser;
  */
 
 public class TranslatorFragment extends Fragment {
+
+    private LocalData localData;
 
     @Nullable
     @Override
@@ -96,11 +96,7 @@ public class TranslatorFragment extends Fragment {
                                         translations.add(result.getTranslatedText());
                                         TranslatorAdapter adapter = new TranslatorAdapter(translations);
                                         recyclerView.setAdapter(adapter);
-                                        try {
-                                            FileUtils.writeToFile(getActivity(), text, result.getTranslatedText(), from + "-" + to, false, "history.json");
-                                        } catch (JSONException | IOException e) {
-                                            e.printStackTrace();
-                                        }
+                                        localData.getBookmarks().add(new BookmarkItem(text, result.getTranslatedText(), from + " - " + to, false));
                                     }
                                 });
                             }
@@ -120,12 +116,7 @@ public class TranslatorFragment extends Fragment {
                                         }
                                         TranslatorAdapter adapter = new TranslatorAdapter(translations);
                                         recyclerView.setAdapter(adapter);
-                                        try {
-                                            if(result != null)
-                                                FileUtils.writeToFile(getActivity(), text, result.getTranslations().get(0).getText(), from + "-" + to, false, "history.json");
-                                        } catch (JSONException | IOException e) {
-                                            e.printStackTrace();
-                                        }
+                                        localData.getBookmarks().add(new BookmarkItem(text, result.getTranslations().get(0).getText(), from + " - " + to, false));
                                     }
                                 });
                             }
@@ -139,8 +130,10 @@ public class TranslatorFragment extends Fragment {
         });
     }
 
-    public static TranslatorFragment newInstance() {
-        return new TranslatorFragment();
+    public static TranslatorFragment newInstance(LocalData localData) {
+        TranslatorFragment translatorFragment = new TranslatorFragment();
+        translatorFragment.localData = localData;
+        return translatorFragment;
     }
 
 }

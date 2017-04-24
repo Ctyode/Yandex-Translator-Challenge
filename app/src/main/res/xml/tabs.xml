@@ -6,4 +6,7 @@
     <tab
         id="@+id/tab_history"
         android:icon="@drawable/ic_bookmark_black_36dp" />
+    <tab
+        id="@+id/tab_favorites"
+        android:icon="@drawable/ic_bookmark_black_36dp" />
 </tabs>
