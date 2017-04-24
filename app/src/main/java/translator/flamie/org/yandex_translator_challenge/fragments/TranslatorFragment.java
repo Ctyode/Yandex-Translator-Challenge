@@ -116,7 +116,9 @@ public class TranslatorFragment extends Fragment {
                                         }
                                         TranslatorAdapter adapter = new TranslatorAdapter(translations);
                                         recyclerView.setAdapter(adapter);
-                                        localData.getBookmarks().add(new BookmarkItem(text, result.getTranslations().get(0).getText(), from + " - " + to, false));
+                                        if (result != null) {
+                                            localData.getBookmarks().add(new BookmarkItem(text, result.getTranslations().get(0).getText(), from + " - " + to, false));
+                                        }
                                     }
                                 });
                             }

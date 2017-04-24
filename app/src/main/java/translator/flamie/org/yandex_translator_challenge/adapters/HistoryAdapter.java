@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import translator.flamie.org.yandex_translator_challenge.R;
-import translator.flamie.org.yandex_translator_challenge.fragments.HistoryFragment;
 import translator.flamie.org.yandex_translator_challenge.model.BookmarkItem;
 import translator.flamie.org.yandex_translator_challenge.model.LocalData;
 
@@ -32,14 +31,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             originalWord = (TextView) v.findViewById(R.id.original_word);
             translatedWord = (TextView) v.findViewById(R.id.translated_word);
             language = (TextView) v.findViewById(R.id.language);
-            isFavorite = (Button) v.findViewById(R.id.favorites_button);
+            isFavorite = (Button) v.findViewById(R.id.history_button);
         }
     }
 
-    public HistoryFragment historyFragment;
-
-    public HistoryAdapter(List<BookmarkItem> myDataset, HistoryFragment historyFragment, LocalData localData) {
-        this.historyFragment = historyFragment;
+    public HistoryAdapter(List<BookmarkItem> myDataset, LocalData localData) {
         this.localData = localData;
         dataset = myDataset;
     }
@@ -60,7 +56,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.isFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dataset.get(position).setFavorite(true);
+                if(dataset.get(position).getIsFavorite()) {
+                    v.findViewById(R.id.history_button).setSelected(false);
+                    dataset.get(position).setFavorite(false);
+                } else {
+                    v.findViewById(R.id.history_button).setSelected(true);
+                    dataset.get(position).setFavorite(true);
+                }
                 localData.save();
             }
         });

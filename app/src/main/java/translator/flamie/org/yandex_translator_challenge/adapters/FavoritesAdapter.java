@@ -11,14 +11,16 @@ import java.util.List;
 
 import translator.flamie.org.yandex_translator_challenge.R;
 import translator.flamie.org.yandex_translator_challenge.model.BookmarkItem;
+import translator.flamie.org.yandex_translator_challenge.model.LocalData;
 
 /**
  * Created by flamie on 24.04.17 :3
  */
 
-public class FavoritesAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
+public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
 
     private List<BookmarkItem> dataset;
+    private LocalData localData;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -37,22 +39,32 @@ public class FavoritesAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHo
         }
     }
 
-    public FavoritesAdapter(List<BookmarkItem> myDataset) {
+    public FavoritesAdapter(List<BookmarkItem> myDataset, LocalData localData) {
+        this.localData = localData;
         dataset = myDataset;
     }
 
     @Override
-    public HistoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FavoritesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_favorites_item, parent, false);
-        return new HistoryAdapter.ViewHolder(v);
+        return new FavoritesAdapter.ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(HistoryAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(FavoritesAdapter.ViewHolder holder, final int position) {
         holder.originalWord.setText(dataset.get(position).getOriginalWord());
         holder.translatedWord.setText(dataset.get(position).getTranslatedWord());
         holder.language.setText(dataset.get(position).getLanguages());
         holder.isFavorite.setSelected(dataset.get(position).getIsFavorite());
+
+        holder.isFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.findViewById(R.id.favorites_button).setSelected(false);
+                dataset.get(position).setFavorite(false);
+                localData.save();
+            }
+        });
     }
 
     @Override

@@ -6,13 +6,11 @@
 
     <Button
         android:layout_width="40dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:id="@+id/favorites_button" />
+        android:layout_centerInParent="true"
+        android:id="@+id/history_button"
+        android:background="@drawable/button_favorite" />
 
     <TextView
         android:id="@+id/translated_word"

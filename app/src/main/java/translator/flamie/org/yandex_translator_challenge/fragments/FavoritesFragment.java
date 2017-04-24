@@ -40,13 +40,13 @@ public class FavoritesFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
         List<BookmarkItem> favoritesItems = new ArrayList<>();
-        for (BookmarkItem bookmark: favoritesItems) {
+        for (BookmarkItem bookmark : localData.getBookmarks()) {
             if(bookmark.getIsFavorite()) {
                 favoritesItems.add(bookmark);
             }
         }
 
-        FavoritesAdapter adapter = new FavoritesAdapter(favoritesItems);
+        FavoritesAdapter adapter = new FavoritesAdapter(favoritesItems, localData);
         recyclerView.setAdapter(adapter);
 
     }
