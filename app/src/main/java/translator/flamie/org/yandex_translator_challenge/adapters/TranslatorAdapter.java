@@ -1,4 +1,4 @@
-package translator.flamie.org.yandex_translator_challenge;
+package translator.flamie.org.yandex_translator_challenge.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import translator.flamie.org.yandex_translator_challenge.R;
 
 public class TranslatorAdapter extends RecyclerView.Adapter<TranslatorAdapter.ViewHolder> {
 

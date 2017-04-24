@@ -26,17 +26,14 @@ import translator.flamie.org.yandex_translator_challenge.util.FileUtils;
  * Created by flamie on 23.04.17 :3
  */
 
-public class HistoryFragment extends Fragment {
+public class FavoritesFragment extends Fragment {
 
-    private String translatedWord;
-    private String originalWord;
-    private String languages;
     private boolean isFavorite;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.history_fragment, container, false);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -46,40 +43,31 @@ public class HistoryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-        JSONArray history;
-        List<BookmarkItem> historyItems = new ArrayList<>();
+        JSONArray favorites;
+        List<BookmarkItem> favoritesItems = new ArrayList<>();
         try {
-            history = FileUtils.readFile(getActivity(), "history.json");
-            for(int i = 0; i < history.length(); i++) {
-                translatedWord = history.getJSONObject(i).getString("tr_word");
-                originalWord = history.getJSONObject(i).getString("or_word");
-                languages = history.getJSONObject(i).getString("lang");
-                isFavorite = history.getJSONObject(i).getBoolean("is_fav");
-                historyItems.add(new BookmarkItem(originalWord, translatedWord, languages, isFavorite));
+            favorites = FileUtils.readFile(getActivity(), "favorites.json");
+            for(int i = 0; i < favorites.length(); i++) {
+                String translatedWord = favorites.getJSONObject(i).getString("tr_word");
+                String originalWord = favorites.getJSONObject(i).getString("or_word");
+                String languages = favorites.getJSONObject(i).getString("lang");
+                isFavorite = favorites.getJSONObject(i).getBoolean("is_fav");
+                favoritesItems.add(new BookmarkItem(originalWord, translatedWord, languages, false));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
-        HistoryAdapter adapter = new HistoryAdapter(historyItems);
+        HistoryAdapter adapter = new HistoryAdapter(favoritesItems);
         recyclerView.setAdapter(adapter);
 
-//        Button favoriteButton = (Button) view.findViewById(R.id.favorites_button);
-//        favoriteButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                try {
-//                    System.out.println("hi");
-//                    FileUtils.writeToFile(getActivity(), originalWord, translatedWord, languages, isFavorite, "history.json");
-//                } catch (JSONException | IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        //Button
+
+
     }
 
-    public static HistoryFragment newInstance() {
-        return new HistoryFragment();
+    public static FavoritesFragment newInstance() {
+        return new FavoritesFragment();
     }
 
 }

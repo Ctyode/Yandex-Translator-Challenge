@@ -2,11 +2,8 @@
 <tabs xmlns:android="http://schemas.android.com/apk/res/android">
     <tab
         id="@id/tab_translator"
-        android:icon="@drawable/ic_swap_horiz_black_36dp"/>
+        android:icon="@drawable/ic_translate_black_36dp"/>
     <tab
         id="@+id/tab_history"
-        android:icon="@drawable/ic_swap_horiz_black_36dp" />
-    <tab
-        id="@+id/tab_preferences"
-        android:icon="@drawable/ic_swap_horiz_black_36dp"/>
+        android:icon="@drawable/ic_bookmark_black_36dp" />
 </tabs>

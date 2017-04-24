@@ -4,14 +4,14 @@ package translator.flamie.org.yandex_translator_challenge.model;
  * Created by flamie on 23.04.17 :3
  */
 
-public class HistoryItem {
+public class BookmarkItem {
 
     private String originalWord;
     private String translatedWord;
     private String languages;
     private boolean isFavorite;
 
-    public HistoryItem(String originalWord, String translatedWord, String languages, boolean isFavorite) {
+    public BookmarkItem(String originalWord, String translatedWord, String languages, boolean isFavorite) {
         this.originalWord = originalWord;
         this.translatedWord = translatedWord;
         this.languages = languages;

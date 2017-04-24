@@ -14,7 +14,7 @@ import translator.flamie.org.yandex_translator_challenge.fragments.HistoryFragme
 import translator.flamie.org.yandex_translator_challenge.fragments.TranslatorFragment;
 
 /**
- * Created by flamie on 20.03.17 :3
+ * Created by flamie on 20.04.17 :3
  */
 
 public class MainActivity extends FragmentActivity {

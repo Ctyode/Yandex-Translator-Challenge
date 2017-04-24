@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +14,9 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -32,13 +24,14 @@ import java.util.List;
 import java.util.Map;
 
 import translator.flamie.org.yandex_translator_challenge.R;
-import translator.flamie.org.yandex_translator_challenge.TranslatorAdapter;
+import translator.flamie.org.yandex_translator_challenge.adapters.TranslatorAdapter;
 import translator.flamie.org.yandex_translator_challenge.api.TranslatorApi;
 import translator.flamie.org.yandex_translator_challenge.model.Language;
 import translator.flamie.org.yandex_translator_challenge.model.TextTranslation;
 import translator.flamie.org.yandex_translator_challenge.model.TranslationPair;
 import translator.flamie.org.yandex_translator_challenge.model.WordTranslation;
 import translator.flamie.org.yandex_translator_challenge.util.Callback;
+import translator.flamie.org.yandex_translator_challenge.util.FileUtils;
 import translator.flamie.org.yandex_translator_challenge.util.ResourceParser;
 
 /**
@@ -104,7 +97,7 @@ public class TranslatorFragment extends Fragment {
                                         TranslatorAdapter adapter = new TranslatorAdapter(translations);
                                         recyclerView.setAdapter(adapter);
                                         try {
-                                            writeToFile(text, result.getTranslatedText(), from + "-" + to);
+                                            FileUtils.writeToFile(getActivity(), text, result.getTranslatedText(), from + "-" + to, false, "history.json");
                                         } catch (JSONException | IOException e) {
                                             e.printStackTrace();
                                         }
@@ -129,7 +122,7 @@ public class TranslatorFragment extends Fragment {
                                         recyclerView.setAdapter(adapter);
                                         try {
                                             if(result != null)
-                                                writeToFile(text, result.getTranslations().get(0).getText(), from + "-" + to);
+                                                FileUtils.writeToFile(getActivity(), text, result.getTranslations().get(0).getText(), from + "-" + to, false, "history.json");
                                         } catch (JSONException | IOException e) {
                                             e.printStackTrace();
                                         }
@@ -150,43 +143,4 @@ public class TranslatorFragment extends Fragment {
         return new TranslatorFragment();
     }
 
-    private void writeToFile(String originalWord, String translatedWord, String languages) throws JSONException, IOException {
-        File file = getActivity().getFileStreamPath("history.json");
-        if (!file.exists()) {
-            OutputStreamWriter out = new OutputStreamWriter(getActivity().openFileOutput("history.json", 0));
-            out.write("[]");
-            out.close();
-        } else {
-            Log.d("File", "File is exist");
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("or_word", originalWord);
-        object.put("tr_word", translatedWord);
-        object.put("lang", languages);
-
-        String fileContents = "";
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        try {
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
-
-            while (line != null) {
-                sb.append(line);
-                sb.append("\n");
-                line = br.readLine();
-            }
-            fileContents = sb.toString();
-        } finally {
-            br.close();
-        }
-
-        JSONArray history = new JSONArray(fileContents);
-        history.put(object);
-
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(history.toString());
-        fileWriter.flush();
-        fileWriter.close();
-    }
 }
